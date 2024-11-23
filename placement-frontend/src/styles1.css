@@ -1,0 +1,95 @@
+/* Placements page container */
+.placements-container {
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Heading Style */
+  .placements-container h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+  }
+  
+  /* Placement cards list */
+  .placements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Individual placement card */
+  .placement-card {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #fff;
+    width: 280px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: left;
+  }
+  
+  .placement-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #007BFF;
+  }
+  
+  /* Card title */
+  .placement-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Placement card details */
+  .placement-card p {
+    font-size: 1rem;
+    margin: 8px 0;
+    color: #555;
+  }
+  
+  /* Highlight important information */
+  .placement-card p strong {
+    color: #007BFF;
+  }
+  
+  /* Button Style */
+  .placement-card button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .placement-card button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Loading and error messages */
+  .loading, .error {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .error {
+    color: #d9534f;
+    font-weight: bold;
+  }
+  

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // For navigation
 import "../styles.css";
 
 const EmployeeLogin = () => {
@@ -6,6 +7,9 @@ const EmployeeLogin = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(""); // State for messages
   const [messageClass, setMessageClass] = useState(""); // State for message styling
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+
+  const navigate = useNavigate(); // Initialize navigation
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent form from submitting normally
@@ -42,8 +46,9 @@ const EmployeeLogin = () => {
         localStorage.setItem("jwtToken", textResponse);
 
         // Show a success message with the JWT token
-        setMessage(`Successfully logged in! Your token: ${textResponse}`);
+        setMessage("Successfully logged in!");
         setMessageClass("success");
+        setIsLoggedIn(true); // Set login status to true
       } else {
         // If it's an error message (e.g., "Wrong Department" or "Invalid credentials")
         console.error("Error:", textResponse);
@@ -58,6 +63,10 @@ const EmployeeLogin = () => {
       setMessage("Error: " + error.message);
       setMessageClass("error");
     }
+  };
+
+  const handleViewPlacementDrive = () => {
+    navigate("/placements"); // Navigate to the placements page
   };
 
   return (
@@ -83,6 +92,14 @@ const EmployeeLogin = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p className={`message ${messageClass}`}>{message}</p>}
+      {isLoggedIn && (
+        <button
+          className="view-placements-button"
+          onClick={handleViewPlacementDrive}
+        >
+          View Placement Drive
+        </button>
+      )}
     </div>
   );
 };
