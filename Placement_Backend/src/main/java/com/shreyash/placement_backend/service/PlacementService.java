@@ -15,6 +15,22 @@ public class PlacementService {
     @Autowired
     private PlacementRepository placementRepository;
 
+    public PlacementDTO getPlacementById(Long id) {
+        Placement placement = placementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Placement with ID " + id + " not found"));
+
+        // Map Placement entity to PlacementDTO
+        return new PlacementDTO(
+                placement.getId(),
+                placement.getOrganisation(),
+                placement.getProfile(),
+                placement.getDescription(),
+                placement.getIntake(),
+                placement.getMinimumGrade()
+        );
+    }
+
+
 
 
     public List<PlacementDTO> getAllPlacements() {

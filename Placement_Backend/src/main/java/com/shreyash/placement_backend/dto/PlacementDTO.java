@@ -17,6 +17,4 @@ public class PlacementDTO {
     private String description;
     private Integer intake;
     private Double minimumGrade;
-
-    // Constructor, Getters, and Setters
 }

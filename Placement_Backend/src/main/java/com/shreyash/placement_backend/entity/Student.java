@@ -1,6 +1,7 @@
 package com.shreyash.placement_backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,9 +41,11 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "placement_id")
+    @JsonIgnore
     private Placement placement;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PlacementStudent> placementStudents;
 
     // Getters and Setters
