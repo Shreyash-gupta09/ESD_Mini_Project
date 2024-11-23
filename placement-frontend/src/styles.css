@@ -1,0 +1,94 @@
+/* Center the page with a background */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #80deea);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+  }
+  
+  /* Login form container */
+  .login-container {
+    background: white;
+    border-radius: 10px;
+    padding: 40px;
+    width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  /* Login title */
+  .login-container h1 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #00796b;
+  }
+  
+  /* Input field labels */
+  .login-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #00796b;
+  }
+  
+  /* Input fields */
+  .login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #f9f9f9;
+  }
+  
+  /* Green login button */
+  .login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for login button */
+  .login-container button:hover {
+    background-color: #218838;
+  }
+  
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    max-width: 100%; /* Restrict the width */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add "..." to overflowing content */
+    white-space: nowrap; /* Prevent text from wrapping */
+    word-break: break-all; /* Ensure words break properly */
+    box-sizing: border-box;
+  }
+  
+  /* Success message styling */
+  .message.success {
+    color: #28a745;
+    background: #e9f7ef;
+    border: 1px solid #28a745;
+  }
+  
+  /* Error message styling */
+  .message.error {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #dc3545;
+  }
