@@ -25,7 +25,7 @@
 
 .placement-card h1 {
   margin-bottom: 15px;
-  color: #007bff;
+  color:#133991;
   font-size: 22px; /* Decreased heading size */
   font-weight: 600;
 }
@@ -141,37 +141,124 @@
   margin-bottom: 20px;
 }
 
-.eligibility-controls {
-  display: flex;
-  align-items: center;
+
+
+.filter-container {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: linear-gradient(to bottom right, #ffffff, #f0f8ff);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-eligible, .btn-reset {
-  padding: 12px 25px;
-  background-color: #28a745; /* Green color */
+.filter-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.filter-controls select,
+.filter-controls input {
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background-color: #fff;
+  min-width: 220px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-controls select:hover,
+.filter-controls input:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.filter-controls select:focus,
+.filter-controls input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.8);
+}
+
+.filter-controls button {
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(to right, #28a745, #218838);
+  transition: background 0.3s ease, box-shadow 0.2s ease;
+}
+
+.filter-controls button:hover {
+  background: linear-gradient(to right, #218838, #1c7430);
+  box-shadow: 0 6px 12px rgba(33, 136, 56, 0.4);
+}
+
+.filter-controls button:active {
+  background: linear-gradient(to right, #1c7430, #155d27);
+  box-shadow: 0 3px 6px rgba(21, 93, 39, 0.5) inset;
+}
+
+.filter-controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+/* Eligible Button Styles Inside Filter Controls */
+.filter-controls .btn-eligible {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
   color: white;
   border: none;
-  border-radius: 50px; /* Very round corners */
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #28a745, #218838); /* Green gradient */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
 }
 
-.btn-reset {
-  background-color: #6c757d; /* Grey color */
-  margin-left: 15px;
+.filter-controls .btn-eligible:hover {
+  background: linear-gradient(145deg, #218838, #1e7e34); /* Darker green on hover */
 }
 
-.btn-eligible:hover, .btn-reset:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+.filter-controls .btn-eligible:active {
+  background: linear-gradient(145deg, #1e7e34, #155724); /* Even darker green on active */
 }
 
-.btn-eligible:active, .btn-reset:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Reset Button Styles Inside Filter Controls */
+.filter-controls .btn-reset {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(145deg, #6c757d, #5a6268); /* Grey gradient */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.filter-controls .btn-reset:hover {
+  background: linear-gradient(145deg, #5a6268, #495057); /* Darker grey on hover */
+}
+
+.filter-controls .btn-reset:active {
+  background: linear-gradient(145deg, #495057, #343a40); /* Even darker grey on active */
 }

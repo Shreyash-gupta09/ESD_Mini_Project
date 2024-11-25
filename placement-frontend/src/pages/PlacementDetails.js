@@ -15,6 +15,26 @@ const PlacementDetails = () => {
   const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [showEligibleOnly, setShowEligibleOnly] = useState(false);
 
+  // Filter states
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("");
+  const [minGrade, setMinGrade] = useState("");
+
+  // Predefined filter values
+  const specializations = [
+    "Software Engineering",
+    "Data Science",
+    "Mechanical Engineering",
+    "Cloud Computing",
+    "Data Analytics",
+    "Artificial Intelligence",
+    "Cybersecurity",
+    "AI and ML",
+    "Software Development",
+  ];
+
+  const domains = ["Engineering", "Science", "Commerce"];
+
   useEffect(() => {
     const fetchPlacementStudents = async () => {
       if (!placementId) {
@@ -47,17 +67,50 @@ const PlacementDetails = () => {
 
   const handleCardClick = (studentDetail) => {
     setSelectedStudentId(studentDetail.id);
-    navigate('/student-details', {
+    navigate("/student-details", {
       state: { student: studentDetail },
     });
+  };
+
+  const applyFilters = () => {
+    let filtered = students;
+
+    if (selectedSpecialization) {
+      filtered = filtered.filter(
+        (studentDetail) =>
+          studentDetail.student?.specialisation === selectedSpecialization
+      );
+    }
+
+    if (selectedDomain) {
+      filtered = filtered.filter(
+        (studentDetail) => studentDetail.student?.domain === selectedDomain
+      );
+    }
+
+    if (minGrade) {
+      filtered = filtered.filter(
+        (studentDetail) => studentDetail.student?.cgpa >= parseFloat(minGrade)
+      );
+    }
+
+    setFilteredStudents(filtered);
+    setShowEligibleOnly(false); // Reset eligible logic when filters are applied
+  };
+
+  const resetFilters = () => {
+    setSelectedSpecialization("");
+    setSelectedDomain("");
+    setMinGrade("");
+    setFilteredStudents(students);
+    setShowEligibleOnly(false); // Reset eligible logic when filters are reset
   };
 
   const handleEligibleClick = () => {
     const minimumGrade = placement?.minimumGrade || 0;
     const eligibleStudents = students.filter(
-      studentDetail => studentDetail.student?.cgpa >= minimumGrade
+      (studentDetail) => studentDetail.student?.cgpa >= minimumGrade
     );
-    
     setFilteredStudents(eligibleStudents);
     setShowEligibleOnly(true);
   };
@@ -87,39 +140,72 @@ const PlacementDetails = () => {
         </div>
       </div>
 
-      <div className="student-list">
-        <div className="student-list-header">
-          <h2>Students Applying for This Drive</h2>
-          <div className="eligibility-controls">
-            {!showEligibleOnly ? (
-              <button 
-                className="btn-eligible" 
-                onClick={handleEligibleClick}
-              >
-                Show Eligible Students
-              </button>
-            ) : (
-              <button 
-                className="btn-reset" 
-                onClick={resetStudentList}
-              >
-                Show All Students
-              </button>
-            )}
-          </div>
+      <div className="filter-container">
+        <h3>Filters</h3>
+        <div className="filter-controls">
+          <select
+            value={selectedSpecialization}
+            onChange={(e) => setSelectedSpecialization(e.target.value)}
+          >
+            <option value="">Select Specialization</option>
+            {specializations.map((specialization) => (
+              <option key={specialization} value={specialization}>
+                {specialization}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedDomain}
+            onChange={(e) => setSelectedDomain(e.target.value)}
+          >
+            <option value="">Select Domain</option>
+            {domains.map((domain) => (
+              <option key={domain} value={domain}>
+                {domain}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="number"
+            placeholder="Min Grade"
+            value={minGrade}
+            onChange={(e) => setMinGrade(e.target.value)}
+          />
+
+          <button onClick={applyFilters}>Apply Filters</button>
+          <button onClick={resetFilters}>Reset Filters</button>
+
+          {!showEligibleOnly ? (
+            <button className="btn-eligible" onClick={handleEligibleClick}>
+              Show Eligible Students
+            </button>
+          ) : (
+            <button className="btn-reset" onClick={resetStudentList}>
+              Show All Students
+            </button>
+          )}
         </div>
+      </div>
+
+      <div className="student-list">
+        <h2>Students Applying for This Drive</h2>
 
         {filteredStudents.length > 0 ? (
           <div className="student-cards-grid">
             {filteredStudents.map((studentDetail) => (
               <div
                 key={studentDetail.id}
-                className={`student-card ${selectedStudentId === studentDetail.id ? "selected" : ""}`}
+                className={`student-card ${
+                  selectedStudentId === studentDetail.id ? "selected" : ""
+                }`}
                 onClick={() => handleCardClick(studentDetail)}
               >
                 <div className="student-card-header">
                   <h3>
-                    {studentDetail.student?.firstName} {studentDetail.student?.lastName}
+                    {studentDetail.student?.firstName}{" "}
+                    {studentDetail.student?.lastName}
                   </h3>
                   <p>{studentDetail.student?.domain}</p>
                 </div>
@@ -129,14 +215,6 @@ const PlacementDetails = () => {
                   <p><strong>CGPA:</strong> {studentDetail.student?.cgpa}</p>
                   <p><strong>Graduation Year:</strong> {studentDetail.student?.graduationYear}</p>
                   <p><strong>Specialisation:</strong> {studentDetail.student?.specialisation}</p>
-                  <p><strong>CV Application:</strong> {studentDetail.cvApplication}</p>
-                  <p><strong>About:</strong> {studentDetail.about}</p>
-                  <p><strong>Comments:</strong> {studentDetail.comments}</p>
-                  <p>
-                    <strong>Acceptance:</strong>{" "}
-                    {studentDetail.acceptance ? "Accepted" : "Pending"}
-                  </p>
-                  <p><strong>Application Date:</strong> {studentDetail.date}</p>
                 </div>
               </div>
             ))}
