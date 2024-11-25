@@ -14,7 +14,10 @@ const PlacementDetails = () => {
   const [error, setError] = useState("");
   const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [showEligibleOnly, setShowEligibleOnly] = useState(false);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedStudentForAcceptance, setSelectedStudentForAcceptance] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+ 
   // Filter states
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [selectedDomain, setSelectedDomain] = useState("");
@@ -66,10 +69,8 @@ const PlacementDetails = () => {
   }, [placementId]);
 
   const handleCardClick = (studentDetail) => {
-    setSelectedStudentId(studentDetail.id);
-    navigate("/student-details", {
-      state: { student: studentDetail },
-    });
+    setSelectedStudentForAcceptance(studentDetail);
+    setIsModalVisible(true);
   };
 
   const applyFilters = () => {
@@ -120,6 +121,62 @@ const PlacementDetails = () => {
     setShowEligibleOnly(false);
   };
 
+  const handleConfirmSelection = async () => {
+    if (!selectedStudentForAcceptance) return;
+
+    const studentId = selectedStudentForAcceptance.studentId;
+    const acceptanceUrl = `http://localhost:8080/api/placement-students/acceptance?studentId=${selectedStudentForAcceptance.student?.studentId}&placementId=${placementId}`;
+    console.log("Student ID:", selectedStudentForAcceptance.studentId);
+    console.log("Placement ID:", placementId);
+
+    try {
+      const response = await fetch(acceptanceUrl, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update acceptance.");
+      }
+
+      // Update student acceptance status locally
+      setStudents((prevStudents) =>
+        prevStudents.map((student) =>
+          student.id === selectedStudentForAcceptance.id
+            ? { ...student, acceptance: true }
+            : student
+        )
+      );
+      setFilteredStudents((prevFilteredStudents) =>
+        prevFilteredStudents.map((student) =>
+          student.id === selectedStudentForAcceptance.id
+            ? { ...student, acceptance: true }
+            : student
+        )
+      );
+      
+      // Show success message
+      setShowSuccessMessage(true);
+      
+      // Hide modal
+      setIsModalVisible(false);
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleCancelSelection = () => {
+    setIsModalVisible(false); // Close the modal
+  };
+
   if (loading) {
     return <div className="loading">Loading placement details...</div>;
   }
@@ -130,9 +187,17 @@ const PlacementDetails = () => {
 
   return (
     <div className="placement-details-container">
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="success-message">
+          Placement offered to {selectedStudentForAcceptance?.student?.firstName} {selectedStudentForAcceptance?.student?.lastName}
+        </div>
+      )}
+
       <div className="placement-card">
         <h1>Placement Details for {placement?.organisation}</h1>
         <div className="placement-info">
+          <p><strong>ID:</strong> {placement?.id}</p>
           <p><strong>Profile:</strong> {placement?.profile}</p>
           <p><strong>Description:</strong> {placement?.description}</p>
           <p><strong>Intake:</strong> {placement?.intake}</p>
@@ -193,44 +258,55 @@ const PlacementDetails = () => {
         <h2>Students Applying for This Drive</h2>
 
         {filteredStudents.length > 0 ? (
-      <div className="student-cards-grid">
-      {filteredStudents.map((studentDetail) => (
-        <div
-          key={studentDetail.id}
-          className={`student-card ${
-            selectedStudentId === studentDetail.id ? "selected" : ""
-          }`}
-          onClick={() => handleCardClick(studentDetail)}
-        >
-          <div className="student-card-header">
-            <h3>
-              {studentDetail.student?.firstName}{" "}
-              {studentDetail.student?.lastName}
-            </h3>
-            <p>{studentDetail.student?.domain}</p>
+          <div className="student-cards-grid">
+            {filteredStudents.map((studentDetail) => (
+              <div
+                key={studentDetail.id}
+                className={`student-card ${
+                  selectedStudentId === studentDetail.id ? "selected" : ""
+                }`}
+                onClick={() => handleCardClick(studentDetail)}
+              >
+                <div className="student-card-header">
+                  <h3>
+                    {studentDetail.student?.firstName}{" "}
+                    {studentDetail.student?.lastName}
+                  </h3>
+                  <p>{studentDetail.student?.domain}</p>
+                </div>
+                <div className="student-card-body">
+                  <p><strong>Student ID:</strong> {studentDetail.student?.studentId}</p>
+                  <p><strong>Roll Number:</strong> {studentDetail.student?.rollNumber}</p>
+                  <p><strong>Email:</strong> {studentDetail.student?.email}</p>
+                  <p><strong>CGPA:</strong> {studentDetail.student?.cgpa}</p>
+                  <p><strong>Graduation Year:</strong> {studentDetail.student?.graduationYear}</p>
+                  <p><strong>Specialisation:</strong> {studentDetail.student?.specialisation}</p>
+                  <p 
+                    className={`status ${studentDetail.acceptance ? "accepted" : "not-accepted"}`}
+                  >
+                    <strong>Status:</strong> {studentDetail.acceptance ? "Accepted" : "Not Accepted"}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="student-card-body">
-            <p><strong>Student ID:</strong> {studentDetail.student?.studentId}</p>
-            <p><strong>Roll Number:</strong> {studentDetail.student?.rollNumber}</p>
-            <p><strong>Email:</strong> {studentDetail.student?.email}</p>
-            <p><strong>CGPA:</strong> {studentDetail.student?.cgpa}</p>
-            <p><strong>Graduation Year:</strong> {studentDetail.student?.graduationYear}</p>
-            <p><strong>Specialisation:</strong> {studentDetail.student?.specialisation}</p>
-            <p 
-              className={`status ${studentDetail.acceptance ? "accepted" : "not-accepted"}`}
-            >
-              <strong>Status:</strong> {studentDetail.acceptance ? "Accepted" : "Not Accepted"}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-    
-      
         ) : (
           <div className="no-students">No students found for this placement drive.</div>
         )}
       </div>
+
+      {/* Modal for confirmation */}
+      {isModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Do you want to select this student for the offer?</p>
+            <div className="modal-buttons">
+              <button onClick={handleConfirmSelection}>Yes</button>
+              <button onClick={handleCancelSelection}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
