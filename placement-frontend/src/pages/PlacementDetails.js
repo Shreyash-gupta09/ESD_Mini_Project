@@ -193,32 +193,40 @@ const PlacementDetails = () => {
         <h2>Students Applying for This Drive</h2>
 
         {filteredStudents.length > 0 ? (
-          <div className="student-cards-grid">
-            {filteredStudents.map((studentDetail) => (
-              <div
-                key={studentDetail.id}
-                className={`student-card ${
-                  selectedStudentId === studentDetail.id ? "selected" : ""
-                }`}
-                onClick={() => handleCardClick(studentDetail)}
-              >
-                <div className="student-card-header">
-                  <h3>
-                    {studentDetail.student?.firstName}{" "}
-                    {studentDetail.student?.lastName}
-                  </h3>
-                  <p>{studentDetail.student?.domain}</p>
-                </div>
-                <div className="student-card-body">
-                  <p><strong>Roll Number:</strong> {studentDetail.student?.rollNumber}</p>
-                  <p><strong>Email:</strong> {studentDetail.student?.email}</p>
-                  <p><strong>CGPA:</strong> {studentDetail.student?.cgpa}</p>
-                  <p><strong>Graduation Year:</strong> {studentDetail.student?.graduationYear}</p>
-                  <p><strong>Specialisation:</strong> {studentDetail.student?.specialisation}</p>
-                </div>
-              </div>
-            ))}
+      <div className="student-cards-grid">
+      {filteredStudents.map((studentDetail) => (
+        <div
+          key={studentDetail.id}
+          className={`student-card ${
+            selectedStudentId === studentDetail.id ? "selected" : ""
+          }`}
+          onClick={() => handleCardClick(studentDetail)}
+        >
+          <div className="student-card-header">
+            <h3>
+              {studentDetail.student?.firstName}{" "}
+              {studentDetail.student?.lastName}
+            </h3>
+            <p>{studentDetail.student?.domain}</p>
           </div>
+          <div className="student-card-body">
+            <p><strong>Student ID:</strong> {studentDetail.student?.studentId}</p>
+            <p><strong>Roll Number:</strong> {studentDetail.student?.rollNumber}</p>
+            <p><strong>Email:</strong> {studentDetail.student?.email}</p>
+            <p><strong>CGPA:</strong> {studentDetail.student?.cgpa}</p>
+            <p><strong>Graduation Year:</strong> {studentDetail.student?.graduationYear}</p>
+            <p><strong>Specialisation:</strong> {studentDetail.student?.specialisation}</p>
+            <p 
+              className={`status ${studentDetail.acceptance ? "accepted" : "not-accepted"}`}
+            >
+              <strong>Status:</strong> {studentDetail.acceptance ? "Accepted" : "Not Accepted"}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+      
         ) : (
           <div className="no-students">No students found for this placement drive.</div>
         )}

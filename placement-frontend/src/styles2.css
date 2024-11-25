@@ -262,3 +262,14 @@
 .filter-controls .btn-reset:active {
   background: linear-gradient(145deg, #495057, #343a40); /* Even darker grey on active */
 }
+.student-card-body p.status {
+  font-weight: bold;
+}
+
+.status.accepted {
+  color: green;
+}
+
+.status.not-accepted {
+  color: red;
+}
