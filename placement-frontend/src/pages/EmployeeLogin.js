@@ -8,6 +8,7 @@ const EmployeeLogin = () => {
   const [message, setMessage] = useState(""); // State for messages
   const [messageClass, setMessageClass] = useState(""); // State for message styling
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [jwtToken, setJwtToken] = useState(""); // State to store the JWT token
 
   const navigate = useNavigate(); // Initialize navigation
 
@@ -45,8 +46,9 @@ const EmployeeLogin = () => {
         // Store the JWT token in localStorage
         localStorage.setItem("jwtToken", textResponse);
 
-        // Show a success message with the JWT token
-        setMessage("Successfully logged in!");
+        // Update state with JWT token and success message
+        setJwtToken(textResponse);
+        setMessage(`Successfully logged in! Your JWT token is: ${textResponse}`);
         setMessageClass("success");
         setIsLoggedIn(true); // Set login status to true
       } else {
@@ -92,13 +94,15 @@ const EmployeeLogin = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p className={`message ${messageClass}`}>{message}</p>}
-      {isLoggedIn && (
-        <button
-          className="view-placements-button"
-          onClick={handleViewPlacementDrive}
-        >
-          View Placement Drive
-        </button>
+      {isLoggedIn && jwtToken && (
+        <div>
+          <button
+            className="view-placements-button"
+            onClick={handleViewPlacementDrive}
+          >
+            View Placement Drive
+          </button>
+        </div>
       )}
     </div>
   );

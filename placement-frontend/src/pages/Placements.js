@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles1.css";
 
 const Placements = () => {
-  const [placements, setPlacements] = useState([]); // State to hold placement data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(""); // Error state
+  const [placements, setPlacements] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlacements = async () => {
@@ -15,7 +17,7 @@ const Placements = () => {
           throw new Error("Failed to fetch placement data.");
         }
 
-        const data = await response.json(); // Parse the JSON response
+        const data = await response.json();
         setPlacements(data);
       } catch (err) {
         setError(err.message);
@@ -25,7 +27,7 @@ const Placements = () => {
     };
 
     fetchPlacements();
-  }, []); // Empty dependency array to fetch data once when the component loads
+  }, []);
 
   if (loading) {
     return <div className="loading">Loading placements...</div>;
@@ -43,9 +45,14 @@ const Placements = () => {
           <div
             key={placement.id}
             className="placement-card"
-            onClick={() => alert(`Details for: ${placement.profile}`)} // Placeholder for navigation
+            onClick={() => {
+              console.log("Clicked placement:", placement); // For debugging
+              navigate("/placement_drive", { state: { placement } }); // Pass the full object in state
+            }}
+            
           >
             <h2>{placement.organisation}</h2>
+            <p><strong>ID:</strong> {placement.id}</p>
             <p><strong>Profile:</strong> {placement.profile}</p>
             <p><strong>Description:</strong> {placement.description}</p>
             <p><strong>Intake:</strong> {placement.intake}</p>

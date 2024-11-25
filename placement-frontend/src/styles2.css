@@ -1,0 +1,136 @@
+/* General layout */
+.placement-details-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8; /* Softer background */
+}
+
+/* Placement card styling */
+.placement-card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15); /* Subtle blue shadow */
+  transition: all 0.3s ease;
+}
+
+.placement-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 123, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.placement-card h1 {
+  margin-bottom: 15px;
+  color: #007bff;
+  font-size: 22px; /* Decreased heading size */
+  font-weight: 600;
+}
+
+.placement-info p {
+  font-size: 15px;
+  margin: 8px 0;
+  color: #5a6474;
+}
+
+/* Student list container */
+.student-list h2 {
+  margin-bottom: 20px;
+  color: #007bff;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* Grid layout for student cards */
+.student-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Student card styling */
+.student-card {
+  background: linear-gradient(145deg, #f0f5ff, #e6eaf3); /* Soft gradient background */
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.student-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(0, 123, 255, 0.05);
+  transform: rotate(-45deg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.student-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 12px 12px 24px #d1d9e6, -12px -12px 24px #ffffff;
+}
+
+.student-card:hover::before {
+  opacity: 1;
+}
+
+/* Header for student cards */
+.student-card-header h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.student-card-header p {
+  margin: 5px 0 10px 0;
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+/* Card body details */
+.student-card-body p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #34495e;
+}
+
+.student-card-body strong {
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* Error and loading states */
+.error {
+  color: #dc3545;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+  color: #6c757d;
+}
+
+.no-students {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+  color: #6c757d;
+}
