@@ -20,6 +20,8 @@ public class PlacementStudentController {
         return placementStudentService.getPlacementStudentsByPlacementId(placementId);
     }
 
-
+    @PutMapping("/acceptance")
+    public PlacementStudentDTO updateAcceptance(@RequestParam Long studentId, @RequestParam Long placementId) {
+        return placementStudentService.updateAcceptance(studentId, placementId);
+    }
 }
-
