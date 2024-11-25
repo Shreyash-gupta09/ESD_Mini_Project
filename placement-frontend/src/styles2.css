@@ -134,3 +134,44 @@
   margin-top: 20px;
   color: #6c757d;
 }
+.student-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.eligibility-controls {
+  display: flex;
+  align-items: center;
+}
+
+.btn-eligible, .btn-reset {
+  padding: 12px 25px;
+  background-color: #28a745; /* Green color */
+  color: white;
+  border: none;
+  border-radius: 50px; /* Very round corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-reset {
+  background-color: #6c757d; /* Grey color */
+  margin-left: 15px;
+}
+
+.btn-eligible:hover, .btn-reset:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-eligible:active, .btn-reset:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

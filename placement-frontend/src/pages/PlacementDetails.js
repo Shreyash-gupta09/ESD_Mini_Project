@@ -9,9 +9,11 @@ const PlacementDetails = () => {
   const placementId = placement?.id;
 
   const [students, setStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedStudentId, setSelectedStudentId] = useState(null); // Track selected student card
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [showEligibleOnly, setShowEligibleOnly] = useState(false);
 
   useEffect(() => {
     const fetchPlacementStudents = async () => {
@@ -32,6 +34,7 @@ const PlacementDetails = () => {
 
         const data = await response.json();
         setStudents(data);
+        setFilteredStudents(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -43,10 +46,25 @@ const PlacementDetails = () => {
   }, [placementId]);
 
   const handleCardClick = (studentDetail) => {
-    setSelectedStudentId(studentDetail.id); // Track the selected student
-    navigate(`/student-details`, {
+    setSelectedStudentId(studentDetail.id);
+    navigate('/student-details', {
       state: { student: studentDetail },
     });
+  };
+
+  const handleEligibleClick = () => {
+    const minimumGrade = placement?.minimumGrade || 0;
+    const eligibleStudents = students.filter(
+      studentDetail => studentDetail.student?.cgpa >= minimumGrade
+    );
+    
+    setFilteredStudents(eligibleStudents);
+    setShowEligibleOnly(true);
+  };
+
+  const resetStudentList = () => {
+    setFilteredStudents(students);
+    setShowEligibleOnly(false);
   };
 
   if (loading) {
@@ -70,13 +88,33 @@ const PlacementDetails = () => {
       </div>
 
       <div className="student-list">
-        <h2>Students Applying for This Drive</h2>
-        {students.length > 0 ? (
+        <div className="student-list-header">
+          <h2>Students Applying for This Drive</h2>
+          <div className="eligibility-controls">
+            {!showEligibleOnly ? (
+              <button 
+                className="btn-eligible" 
+                onClick={handleEligibleClick}
+              >
+                Show Eligible Students
+              </button>
+            ) : (
+              <button 
+                className="btn-reset" 
+                onClick={resetStudentList}
+              >
+                Show All Students
+              </button>
+            )}
+          </div>
+        </div>
+
+        {filteredStudents.length > 0 ? (
           <div className="student-cards-grid">
-            {students.map((studentDetail) => (
+            {filteredStudents.map((studentDetail) => (
               <div
                 key={studentDetail.id}
-                className={`student-card ${selectedStudentId === studentDetail.id ? "selected" : ""}`} // Apply 'selected' class if this card is clicked
+                className={`student-card ${selectedStudentId === studentDetail.id ? "selected" : ""}`}
                 onClick={() => handleCardClick(studentDetail)}
               >
                 <div className="student-card-header">
