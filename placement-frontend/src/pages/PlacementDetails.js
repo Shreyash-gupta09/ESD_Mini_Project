@@ -39,6 +39,11 @@ const PlacementDetails = () => {
   const domains = ["Engineering", "Science", "Commerce"];
 
   useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if(!token) {
+      navigate('/');
+      return;
+    }
     const fetchPlacementStudents = async () => {
       if (!placementId) {
         setError("No placement ID provided.");
@@ -48,7 +53,14 @@ const PlacementDetails = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/api/placement-students?placementId=${placementId}`
+          `http://localhost:8080/api/placement-students?placementId=${placementId}`,
+          {
+            method: "GET", // For GET requests
+            headers: {
+              "Content-Type": "application/json", // Specify JSON content type
+              Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+            },
+          }
         );
 
         if (!response.ok) {
@@ -66,7 +78,7 @@ const PlacementDetails = () => {
     };
 
     fetchPlacementStudents();
-  }, [placementId]);
+  }, [placementId, navigate]);
 
   const handleCardClick = (studentDetail) => {
     setSelectedStudentForAcceptance(studentDetail);

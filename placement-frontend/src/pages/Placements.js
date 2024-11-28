@@ -9,9 +9,22 @@ const Placements = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Get Token from Local Storage
+    const token = localStorage.getItem('jwtToken');
+    if(!token) {
+      navigate('/');
+      return;
+    }
     const fetchPlacements = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/placements");
+        const response = await fetch("http://localhost:8080/api/placements", {
+          method: "GET",
+          headers: {
+              "Authorization": `Bearer ${token}`, // Replace yourAuthToken with the actual token
+              "Content-Type": "application/json" // Optional: Only needed for JSON payloads
+          }
+      });
+      
 
         if (!response.ok) {
           throw new Error("Failed to fetch placement data.");
@@ -27,7 +40,7 @@ const Placements = () => {
     };
 
     fetchPlacements();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return <div className="loading">Loading placements...</div>;
