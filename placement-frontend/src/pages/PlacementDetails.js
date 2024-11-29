@@ -135,24 +135,28 @@ const PlacementDetails = () => {
 
   const handleConfirmSelection = async () => {
     if (!selectedStudentForAcceptance) return;
-
+  
     const studentId = selectedStudentForAcceptance.studentId;
     const acceptanceUrl = `http://localhost:8080/api/placement-students/acceptance?studentId=${selectedStudentForAcceptance.student?.studentId}&placementId=${placementId}`;
     console.log("Student ID:", selectedStudentForAcceptance.studentId);
     console.log("Placement ID:", placementId);
-
+  
+    // Retrieve the authorization token
+    const token = localStorage.getItem('jwtToken'); // Adjust as per your token storage logic
+  
     try {
       const response = await fetch(acceptanceUrl, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Add Authorization header
         },
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to update acceptance.");
       }
-
+  
       // Update student acceptance status locally
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
@@ -168,22 +172,23 @@ const PlacementDetails = () => {
             : student
         )
       );
-      
+  
       // Show success message
       setShowSuccessMessage(true);
-      
+  
       // Hide modal
       setIsModalVisible(false);
-
+  
       // Hide success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
-
+  
     } catch (err) {
       setError(err.message);
     }
   };
+  
 
   const handleCancelSelection = () => {
     setIsModalVisible(false); // Close the modal

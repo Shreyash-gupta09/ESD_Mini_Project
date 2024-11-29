@@ -34,7 +34,15 @@ public class PlacementStudentController {
     }
 
     @PutMapping("/acceptance")
-    public PlacementStudentDTO updateAcceptance(@RequestParam Long studentId, @RequestParam Long placementId) {
+    public PlacementStudentDTO updateAcceptance(@RequestParam Long studentId, @RequestParam Long placementId,@RequestHeader ("Authorization") String token) {
+        if(token == null || !token.startsWith("Bearer ")) {
+            throw new RuntimeException("Invalid token");
+        }
+
+        token = token.substring(7);
+        if(!jwtHelper.isTokenValid(token)) {
+            throw new RuntimeException("Invalid token");
+        }
         return placementStudentService.updateAcceptance(studentId, placementId);
     }
 }

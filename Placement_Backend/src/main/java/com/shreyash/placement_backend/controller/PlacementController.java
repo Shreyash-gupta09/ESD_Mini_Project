@@ -35,11 +35,11 @@ public class PlacementController {
     }
 
 
-    @GetMapping("/id")
-    public ResponseEntity<PlacementDTO> getPlacementById(@RequestParam Long id) {
-        PlacementDTO placementDTO = placementService.getPlacementById(id);
-        return ResponseEntity.ok(placementDTO);
-    }
+//    @GetMapping("/id")
+//    public ResponseEntity<PlacementDTO> getPlacementById(@RequestParam Long id) {
+//        PlacementDTO placementDTO = placementService.getPlacementById(id);
+//        return ResponseEntity.ok(placementDTO);
+//    }
 
 
 }

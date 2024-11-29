@@ -48,7 +48,6 @@ INSERT INTO student (student_id, roll_number, first_name, last_name, email, cgpa
 (115, 'B2024015', 'James', 'Jackson', 'james.jackson@example.com', 7.7, 108, 2024, 'Engineering', 'Software Development', 1);
 
 INSERT INTO placement_student (id, placement_id, student_id, cv_application, about, acceptance, comments, date) VALUES
---sample data
 (1, 1, 101, 'CV of Student 101', 'Passionate about software development.', FALSE, 'Strong candidate.', '2024-11-20'),
 (2, 1, 102, 'CV of Student 102', 'Experienced in Java and Python.', FALSE, 'Needs improvement.', '2024-11-21'),
 (3, 1, 103, 'CV of Student 103', 'Good problem-solving skills.', FALSE, 'Recommended for next round.', '2024-11-22'),
